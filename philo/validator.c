@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:18:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/01 17:05:24 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/01 21:10:38 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	valid_number_of_args(int argc)
 {
 	if (argc < 5 || argc > 6)
 	{
-		printf("usage:\n./philo number_of_pfilosophers time_to_die time_to_eat");
+		printf("usage:\n./philo number_of_philosophers time_to_die time_to_eat");
 		printf(" time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 		return (0);
 	}
