@@ -28,7 +28,9 @@ void	*routine()
 	//printf("value of x in t1: %d\n", x);
 	while (i < 1000000)
 	{
+		pthread_mutex_lock(&mutex);
 		mails++;
+		pthread_mutex_unlock(&mutex);
 		i++;
 	}
 	//usleep(2500000);
@@ -44,30 +46,55 @@ void	*routine2()
 	return (NULL);
 }
 */
+
+void	*roll_dice()
+{
+	int	n;
+	int	*res;
+
+	res = (int *)malloc(sizeof(int));
+	n = (rand() % 6) + 1;
+	*res = n;
+	//printf("%d\n", n);
+	return ((void *)res);
+}
+
 int	main(int argc, char **argv)
 {
-	pthread_t	t1;
-	pthread_t	t2;
-	int		pid;
+	pthread_t	*t;
+	int		i;
+	int		*res;
 
-	pthread_mutex_init(&mutex, NULL);
-	if (pthread_create(&t1, NULL, &routine, NULL) != 0)
-		return (1);
-	if (pthread_create(&t2, NULL, &routine, NULL) != 0)
-		return (2);
-	if (pthread_join(t1, NULL) != 0)
+	srand(time(NULL));
+	if (argc != 2 || atoi(&argv[1][0]) == 0)
+	{
+		printf("no philosophers number\nexit\n");
+		return (0);
+	}
+	t = (pthread_t *)malloc(sizeof(pthread_t) * (atoi(&argv[1][0]) + 1));
+	if (!t)
 		return (3);
-	if (pthread_join(t2, NULL) != 0)
-		return (4);
-	/*
-	pid = fork();
-	if (pid == -1)
-		return (5);
-	printf("value of x in p: %d\n", x);
-	if (pid == 0)
-		x++;
-	usleep(5000000);
-	*/
+	pthread_mutex_init(&mutex, NULL);
+	i = 0;
+	while (i < atoi(&argv[1][0]))
+	{
+		if (pthread_create(t + i, NULL, &roll_dice, NULL) != 0)
+			return (1);
+		printf("thread %d initiated\n", i);
+		i++;
+	}
+	i = 0;
+	while (i < atoi(&argv[1][0]))
+	{
+		if (pthread_join(t[i], (void **)&res) != 0)
+			return (2);
+		printf("thread %d finished\n", *res);
+		i++;
+	}
+	free(t);
+	t = NULL;
+	free(res);
+	res = NULL;
 	pthread_mutex_destroy(&mutex);
 	printf("value of x after threads: %d\n", mails);
 	return (0);
