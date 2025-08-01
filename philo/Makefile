@@ -3,7 +3,7 @@ FLAGS = -Wall -Wextra -Werror -pthread
 NAME = philo
 RM = rm -f
 
-SRC = main2.c
+SRC = philo.c validator.c data.c utils.c
 
 OBJ = $(SRC:.c=.o)
 

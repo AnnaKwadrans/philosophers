@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:18:10 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/01 15:28:19 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:01:29 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,18 @@ typedef struct	s_philosopher
 	
 } t_philosopher;
 
+// validator.c
+bool	valid_arguments(int argc, char **argv);
+bool	valid_number_of_args(int argc);
+bool	are_args_valid_numbers(char **argv);
+
+// data.c
+void	init_data(t_data *data, int argc, char **argv);
+void	print_data(t_data *data); // auxiliar
+
+// utils.c
+int	ft_atoi(const char *nptr);
+int	ft_isspace(int c);
+int	ft_isdigit(int c);
 
 #endif

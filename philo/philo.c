@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:18:02 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/01 15:18:04 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:01:05 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,16 @@ Funciones autorizadas:
 
 #include "philo.h"
 
-bool	
 
-bool	valid_arguments(int argc, char **argv)
-{
-	if (argc < 5 || argc > 6)
-	{
-		printf()
-	}
-		return (0);
-	
-}
 
 int	main(int argc, char **argv)
 {
 	t_data  data;
 
-	valid_arguments(argc, argv);
-	init_data();
+	if (!valid_arguments(argc, argv))
+		return (1);
+	init_data(&data, argc, argv);
+	print_data(&data);
 	/* routines */
 	return (0);
 }

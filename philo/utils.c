@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 16:04:41 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/01 16:16:14 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:06:27 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ int	ft_isspace(int c)
 
 int	ft_isdigit(int c)
 {
-	return (c <= '0' && c >= '9');
+	return (c >= '0' && c <= '9');
 }

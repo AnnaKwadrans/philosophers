@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:18:29 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/01 16:17:11 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:05:24 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,23 @@ bool	are_args_valid_numbers(char **argv)
 {
 	long	num;
 	int	i;
+	int	j;
 
-	i = 0;
+	i = 1;
 	while (argv[i])
 	{
-		num = ft_atol();
+		j = 0;
+		printf("%s\n", argv[i]);
+		while (argv[i][j])
+		{
+			if (!ft_isdigit(argv[i][j]))
+			{
+				printf("arguments must be digits\n");
+				return (0);
+			}
+			j++;
+		}
+		i++;
 	}
+	return (1);
 }
