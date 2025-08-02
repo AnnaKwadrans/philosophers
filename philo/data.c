@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 16:51:12 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/01 21:49:41 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/01 22:53:03 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	init_parameters(t_data *data, int argc, char **argv)
 	else
 		data->number_of_times_each_philosopher_must_eat = -1;
 	data->start_time = get_timestamp();
+	data->count = 0;
 }
 
 void	init_data(t_data *data, int argc, char **argv)

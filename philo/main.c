@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:18:02 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/01 21:48:53 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:42:04 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ int	main(int argc, char **argv)
 		return (1);
 	init_data(&data, argc, argv);
 	print_data(&data);
-	create_threads(&data, data.philos);
-	join_threads(&data, data.philos);
+	print_philos_data(&data, data.philos);
+	pthread_create(&data.watch, NULL, &watch_for_dead, &data);
+	create_threads(&data, data.philos, 0);
+	create_threads(&data, data.philos, 1);
+	pthread_join(data.watch, NULL);
+	destroy_forks(&data);
+	printf("elapsed %lld\n", elapsed_time(data.start_time));
 	return (0);
 }

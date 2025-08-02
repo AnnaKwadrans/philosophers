@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:18:10 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/01 21:50:35 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:31:44 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@
 # include <stdbool.h>
 # include <limits.h>
 
-typedef struct s_fork
+typedef enum e_state
 {
-	int	index;
-	pthread_mutex_t	*fork;
-	struct s_fork	*next;
-}	t_fork;
+	ALIVE,
+	DEAD
+}	t_state;
 
 typedef struct	s_philosopher
 {
@@ -37,7 +36,7 @@ typedef struct	s_philosopher
 	long long		last_meal;
 	pthread_t		th;
 	struct s_data		*data;
-
+	t_state			state;
 
 
 
@@ -54,6 +53,9 @@ typedef struct	s_data
 	long long		start_time;
 	t_philosopher		*philos;
 	pthread_mutex_t		*forks;
+	pthread_t		watch;
+	int			count;
+	pthread_mutex_t		count_mutex;
 
 
 } t_data;
@@ -80,11 +82,23 @@ int	ft_isdigit(int c);
 // philos.c
 int	init_forks(t_data *data);
 int	init_philosophers(t_data *data, t_philosopher *philo);
-int	create_threads(t_data *data, t_philosopher *philo);
+int	create_threads(t_data *data, t_philosopher *philo, int odd);
 int	join_threads(t_data *data, t_philosopher *philo);
+void	print_philos_data(t_data *data, t_philosopher *philo); // auxiliar
+void	print_state(t_philosopher *philo, char *msg);
+void	destroy_forks(t_data *data);
 
 // routine.c
 void	*routine(void *arg);
+void	*watch_for_dead(void *arg);
+bool	has_died(t_philosopher *philo, long long time_to_die);
+int	grab_fork(t_philosopher *philo, pthread_mutex_t *fork);
+void	drop_fork(pthread_mutex_t *fork);
+void	drop_forks(t_philosopher *philo);
+int	eating(t_philosopher *philo);
+int	sleeping(t_philosopher *philo);
+int	thinking(t_philosopher *philo);
+void	print_state(t_philosopher *philo, char *msg);
 
 
 #endif
