@@ -33,6 +33,7 @@ int	init_data(t_data *data, int argc, char **argv)
 		free_memory(data);
 		return (3);
 	}
+	data->start_time = get_timestamp();
 	return (0);
 }
 
@@ -46,7 +47,7 @@ void	init_parameters(t_data *data, int argc, char **argv)
 		data->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
 		data->number_of_times_each_philosopher_must_eat = -1;
-	data->start_time = get_timestamp();
+	//data->start_time = get_timestamp();
 	data->count = 0;
 }
 
@@ -68,7 +69,6 @@ int	allocate_memory(t_data *data)
 void	finish_program(t_data *data)
 {
 	join_threads(data, data->philos);
-	pthread_join(data->watch, NULL);
 	destroy_forks(data);
 	destroy_mutexes(data, data->philos);
 	free_memory(data);

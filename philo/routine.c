@@ -18,7 +18,7 @@ void	*routine(void *arg)
 
 	philo = (t_philosopher *)arg;
 	pthread_mutex_lock(&philo->state_mutex);
-	if (philo->state == DEAD)
+	if (philo->state == DEAD || philo->state == FULL)
 	{
 		pthread_mutex_unlock(&philo->state_mutex);
 		return (NULL);

@@ -40,7 +40,7 @@ int	init_mutexes(t_philosopher *philo)
 {
 	if (pthread_mutex_init(&philo->state_mutex, NULL) > 0)
 		return (1);
-	if (pthread_mutex_init(&philo->state_mutex, NULL) > 0)
+	if (pthread_mutex_init(&philo->last_meal_mutex, NULL) > 0)
 		return (1);
 	return (0);
 }
@@ -63,6 +63,7 @@ int	create_philos(t_data *data, t_philosopher *philo, int odd)
 	int	i;
 
 	i = odd;
+	//data->start_time = get_timestamp();
 	while (i < data->number_of_philosophers)
 	{
 		if (pthread_create(&philo[i].th, NULL, &routine, &philo[i]) > 0)
@@ -79,6 +80,7 @@ int	join_threads(t_data *data, t_philosopher *philo)
 {
 	int	i;
 
+	pthread_join(data->watch, NULL);
 	i = 0;
 	while (i < data->number_of_philosophers)
 	{

@@ -43,6 +43,7 @@ int	main(int argc, char **argv)
 	print_data(&data);
 	print_philos_data(&data, data.philos);
 	//printf("check 3\n");
+	printf("TIME ELAPSED FROMSTART: %lld\n", elapsed_time(data.start_time));
 	if (create_threads(&data) > 0)
 		return (3);
 	//printf("check 4\n");
