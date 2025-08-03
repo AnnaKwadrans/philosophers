@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:18:10 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/02 14:31:44 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:59:03 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,8 @@ typedef struct	s_philosopher
 	pthread_t		th;
 	struct s_data		*data;
 	t_state			state;
-
-
-
+	int			nb_of_meals;
 } t_philosopher;
-
 
 typedef struct	s_data
 {
@@ -56,49 +53,54 @@ typedef struct	s_data
 	pthread_t		watch;
 	int			count;
 	pthread_mutex_t		count_mutex;
-
-
 } t_data;
 
-
-
 // validator.c
-bool	valid_arguments(int argc, char **argv);
-bool	valid_number_of_args(int argc);
-bool	are_args_valid_numbers(char **argv);
+bool		valid_arguments(int argc, char **argv);
+bool		valid_number_of_args(int argc);
+bool		are_args_valid_numbers(char **argv);
+
+// utils.c
+int		ft_atoi(const char *nptr);
+int		ft_isspace(int c);
+int		ft_isdigit(int c);
 
 // data.c
 void		init_data(t_data *data, int argc, char **argv);
 void		init_parameters(t_data *data, int argc, char **argv);
-void		print_data(t_data *data); // auxiliar
+int		allocate_memory(t_data *data);
+void		finish_program(t_data *data);
+void		free_memory(t_data *data);
+
+// time.c
 long long	get_timestamp(void);
 long long	elapsed_time(long long start_time);
+void		print_state(t_philosopher *philo, char *msg);
 
-// utils.c
-int	ft_atoi(const char *nptr);
-int	ft_isspace(int c);
-int	ft_isdigit(int c);
+// forks.c
+int		init_forks(t_data *data);
+int		grab_fork(t_philosopher *philo, pthread_mutex_t *fork);
+void		drop_fork(pthread_mutex_t *fork);
+void		drop_forks(t_philosopher *philo);
+void		destroy_forks(t_data *data);
 
 // philos.c
-int	init_forks(t_data *data);
-int	init_philosophers(t_data *data, t_philosopher *philo);
-int	create_threads(t_data *data, t_philosopher *philo, int odd);
-int	join_threads(t_data *data, t_philosopher *philo);
-void	print_philos_data(t_data *data, t_philosopher *philo); // auxiliar
-void	print_state(t_philosopher *philo, char *msg);
-void	destroy_forks(t_data *data);
+int		init_philosophers(t_data *data, t_philosopher *philo);
+int		create_threads(t_data *data, t_philosopher *philo, int odd);
+
+// watch.c
+void		*watch_for_dead(void *arg);
+bool		has_died(t_philosopher *philo, long long time_to_die);
 
 // routine.c
-void	*routine(void *arg);
-void	*watch_for_dead(void *arg);
-bool	has_died(t_philosopher *philo, long long time_to_die);
-int	grab_fork(t_philosopher *philo, pthread_mutex_t *fork);
-void	drop_fork(pthread_mutex_t *fork);
-void	drop_forks(t_philosopher *philo);
-int	eating(t_philosopher *philo);
-int	sleeping(t_philosopher *philo);
-int	thinking(t_philosopher *philo);
-void	print_state(t_philosopher *philo, char *msg);
+void		*routine(void *arg);
+int		eating(t_philosopher *philo);
+int		sleeping(t_philosopher *philo);
+int		thinking(t_philosopher *philo);
 
+// aux.c
+void		print_data(t_data *data);
+void		print_philos_data(t_data *data, t_philosopher *philo);
+int		join_threads(t_data *data, t_philosopher *philo);
 
 #endif
