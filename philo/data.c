@@ -6,18 +6,28 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 16:51:12 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/03 17:46:28 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/03 19:28:59 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_data(t_data *data, int argc, char **argv)
+int	init_data(t_data *data, int argc, char **argv)
 {
 	init_parameters(data, argc, argv);
-	allocate_memory(data);
-	init_forks(data);
+	if (allocate_memory(data) > 0)
+	{
+		printf("malloc error\n");
+		return (1);
+	}
+	if (init_forks(data) > 0)
+	{
+		printf("mutex init error");
+		free_memory(data);
+		return (1);
+	}
 	init_philosophers(data, data->philos);
+	return (0);
 }
 
 void	init_parameters(t_data *data, int argc, char **argv)
@@ -51,6 +61,7 @@ int	allocate_memory(t_data *data)
 
 void	finish_program(t_data *data)
 {
+	join_threads(data, data->philos);
 	pthread_join(data->watch, NULL);
 	destroy_forks(data);
 	free_memory(data);

@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 17:46:14 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/03 17:54:17 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/03 19:29:29 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,3 @@ void	print_philos_data(t_data *data, t_philosopher *philo)
 	}
 }
 
-int	join_threads(t_data *data, t_philosopher *philo)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->number_of_philosophers)
-	{
-		if (pthread_join(philo[i].th, NULL) > 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}

@@ -10,6 +10,9 @@ OBJ = $(SRC:.c=.o)
 $(NAME): $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
+
 .PHONY:	all clean fclean re
 
 all: $(NAME)
