@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:18:10 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/03 17:59:03 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:13:23 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 typedef enum e_state
 {
 	ALIVE,
-	DEAD
+	DEAD,
+	FULL
 }	t_state;
 
 typedef struct	s_philosopher

@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:35:37 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/03 17:46:03 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:14:19 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	*routine(void *arg)
 	philo = (t_philosopher *)arg;
 	if (philo->state == DEAD)
 		return (NULL);
-	while (philo->state == ALIVE)
+	while (philo->state == ALIVE && philo->nb_of_meals
+		< philo->data->number_of_times_each_philosopher_must_eat)
 	{
 		if (grab_fork(philo, philo->right_fork) > 0)
 			break ;
@@ -40,6 +41,10 @@ void	*routine(void *arg)
 		if (thinking(philo) > 0)
 			break ;
 	}
+	if (philo->nb_of_meals == philo->data->number_of_times_each_philosopher_must_eat)
+		philo->state = FULL;
+	pthread_join(philo->th, NULL);
+	print_state(philo, "thread joined");
 	return (NULL);
 }
 

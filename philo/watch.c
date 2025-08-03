@@ -6,7 +6,7 @@
 /*   By: akwadran <akwadran@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 17:39:22 by akwadran          #+#    #+#             */
-/*   Updated: 2025/08/03 17:39:57 by akwadran         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:16:43 by akwadran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	*watch_for_dead(void *arg)
 		i = 0;
 		while (i < data->number_of_philosophers)
 		{
-			if (philo[i].state == ALIVE && has_died(&philo[i], data->time_to_die))
+			if (philo[i].state == FULL)
+				data->count++;
+			else if (philo[i].state == ALIVE && has_died(&philo[i], data->time_to_die))
 			{
 				philo[i].state = DEAD;
 				data->count++;
 				print_state(&philo[i], "died");
-				pthread_join(philo[i].th, NULL);
-				print_state(philo, "thread joined");
 			}
 			i++;
 		}
