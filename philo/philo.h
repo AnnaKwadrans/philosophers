@@ -32,13 +32,15 @@ typedef enum e_state
 typedef struct	s_philosopher
 {
 	int			index;
+	t_state			state;
+	pthread_t		th;
 	pthread_mutex_t		*right_fork;
 	pthread_mutex_t		*left_fork;
 	long long		last_meal;
-	pthread_t		th;
-	struct s_data		*data;
-	t_state			state;
 	int			nb_of_meals;
+	pthread_mutex_t		last_meal_mutex;
+	pthread_mutex_t		state_mutex;
+	struct s_data		*data;
 } t_philosopher;
 
 typedef struct	s_data
@@ -83,14 +85,17 @@ void		print_state(t_philosopher *philo, char *msg);
 
 // forks.c
 int		init_forks(t_data *data);
-int		grab_fork(t_philosopher *philo, pthread_mutex_t *fork);
-void		drop_fork(pthread_mutex_t *fork);
+int		grab_forks(t_philosopher *philo);
+//int		grab_fork(t_philosopher *philo, pthread_mutex_t *fork);
+//void		drop_fork(pthread_mutex_t *fork);
 void		drop_forks(t_philosopher *philo);
 void		destroy_forks(t_data *data);
 
 // philos.c
 int		init_philosophers(t_data *data, t_philosopher *philo);
 int		create_philos(t_data *data, t_philosopher *philo, int odd);
+int		init_mutexes(t_philosopher *philo);
+void		destroy_mutexes(t_data *data, t_philosopher *philos);
 int		join_threads(t_data *data, t_philosopher *philo);
 
 // watch.c

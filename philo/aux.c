@@ -31,8 +31,9 @@ void	print_philos_data(t_data *data, t_philosopher *philo)
 	while (i < data->number_of_philosophers)
 	{
 		printf("%d - left: %p, right: %p\n", philo[i].index, philo[i].left_fork, philo[i].right_fork);
+		printf("lm: %p, state: %p\n", &philo[i].last_meal_mutex, &philo[i].state_mutex);
 		i++;
-		printf("ts: %lld\n", get_timestamp());
 	}
+	printf("ts: %lld\n", get_timestamp());
 }
 

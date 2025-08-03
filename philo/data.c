@@ -24,9 +24,15 @@ int	init_data(t_data *data, int argc, char **argv)
 	{
 		printf("mutex init error");
 		free_memory(data);
-		return (1);
+		return (2);
 	}
-	init_philosophers(data, data->philos);
+	if (init_philosophers(data, data->philos) > 0)
+	{
+		printf("mutex init error");
+		destroy_forks(data);
+		free_memory(data);
+		return (3);
+	}
 	return (0);
 }
 
@@ -64,6 +70,7 @@ void	finish_program(t_data *data)
 	join_threads(data, data->philos);
 	pthread_join(data->watch, NULL);
 	destroy_forks(data);
+	destroy_mutexes(data, data->philos);
 	free_memory(data);
 }
 

@@ -20,12 +20,14 @@ void	*watch_for_dead(void *arg)
 
 	data = (t_data *)arg;
 	philo = data->philos;
+	usleep(data->time_to_die * 1000 - 1000);
 	while (data->count < data->number_of_philosophers)
 	{
 		//printf("count: %d\n", data->count);
 		i = 0;
 		while (i < data->number_of_philosophers)
 		{
+			pthread_mutex_lock(&philo[i].state_mutex);
 			if (philo[i].state == FULL)
 				data->count++;
 			else if (philo[i].state == HUNGRY && has_died(&philo[i], data->time_to_die))
@@ -34,6 +36,7 @@ void	*watch_for_dead(void *arg)
 				philo[i].state = DEAD;
 				print_state(&philo[i], "died");
 			}
+			pthread_mutex_unlock(&philo[i].state_mutex);
 			i++;
 		}
 	}
@@ -47,7 +50,9 @@ bool	has_died(t_philosopher *philo, long long time_to_die)
 	long long	diff;
 	
 	ts = elapsed_time(philo->data->start_time);
+	pthread_mutex_lock(&philo->last_meal_mutex);
 	diff = ts - philo->last_meal;
+	pthread_mutex_unlock(&philo->last_meal_mutex);
 	//printf("DEATH ts: %lld, lm: %lld, diff: %lld\n", ts, philo->last_meal, diff);
 	//if ((get_timestamp() - philo->last_meal) > time_to_die)
 	if (diff > time_to_die)

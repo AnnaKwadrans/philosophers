@@ -36,18 +36,18 @@ int	main(int argc, char **argv)
 
 	if (!valid_arguments(argc, argv))
 		return (1);
-	printf("check 1\n");
+	//printf("check 1\n");
 	if (init_data(&data, argc, argv) > 0)
 		return (2);
-	printf("check 2\n");
+	//printf("check 2\n");
 	print_data(&data);
 	print_philos_data(&data, data.philos);
-	printf("check 3\n");
+	//printf("check 3\n");
 	if (create_threads(&data) > 0)
 		return (3);
-	printf("check 4\n");
+	//printf("check 4\n");
 	finish_program(&data);
-	printf("elapsed %lld\n", elapsed_time(data.start_time));
+	//printf("elapsed %lld\n", elapsed_time(data.start_time));
 	return (0);
 }
 

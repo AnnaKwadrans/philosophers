@@ -29,9 +29,33 @@ int	init_philosophers(t_data *data, t_philosopher *philo)
 		philo[i].data = data;
 		philo[i].state = HUNGRY;
 		philo[i].nb_of_meals = 0;
+		if (init_mutexes(&philo[i]) > 0)
+			return (1);
 		i++;
 	}
 	return (0);
+}
+
+int	init_mutexes(t_philosopher *philo)
+{
+	if (pthread_mutex_init(&philo->state_mutex, NULL) > 0)
+		return (1);
+	if (pthread_mutex_init(&philo->state_mutex, NULL) > 0)
+		return (1);
+	return (0);
+}
+
+void	destroy_mutexes(t_data *data, t_philosopher *philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->number_of_philosophers)
+	{
+		pthread_mutex_destroy(&philos[i].last_meal_mutex);
+		pthread_mutex_destroy(&philos[i].state_mutex);
+		i++;
+	}
 }
 
 int	create_philos(t_data *data, t_philosopher *philo, int odd)
