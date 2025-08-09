@@ -91,3 +91,22 @@ int	join_threads(t_data *data, t_philosopher *philo)
 	}
 	return (0);
 }
+
+bool	check_state(t_philosopher *philo, t_state state_to_check)
+{
+	bool	ret;
+	
+	ret = false;
+	pthread_mutex_lock(&philo->state_mutex);
+	if (philo->state == state_to_check)
+		ret = true;
+	pthread_mutex_unlock(&philo->state_mutex);
+	return (ret);
+}
+
+void	change_state(t_philosopher *philo, t_state new_state)
+{
+	pthread_mutex_lock(&philo->state_mutex);
+	philo->state = new_state;
+	pthread_mutex_unlock(&philo->state_mutex);
+}

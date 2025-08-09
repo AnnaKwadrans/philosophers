@@ -43,6 +43,7 @@ int	main(int argc, char **argv)
 	print_data(&data);
 	print_philos_data(&data, data.philos);
 	//printf("check 3\n");
+	data.start_time = get_timestamp();
 	printf("TIME ELAPSED FROM START: %lld\n", elapsed_time(data.start_time));
 	if (create_threads(&data) > 0)
 		return (3);
@@ -68,6 +69,6 @@ int	create_threads(t_data *data)
 	pthread_mutex_lock(&data->start_mutex);
 	data->start = true;
 	pthread_mutex_unlock(&data->start_mutex);
-	data->start_time = get_timestamp();
+	//data->start_time = get_timestamp();
 	return (0);
 }

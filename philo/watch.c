@@ -26,18 +26,15 @@ void	*watch(void *arg)
 		i = 0;
 		while (i < data->number_of_philosophers)
 		{
-			pthread_mutex_lock(&philo[i].state_mutex);
-			if (philo[i].state == HUNGRY && has_died(&philo[i], data->time_to_die))
+			if (check_state(&philo[i], HUNGRY) && has_died(&philo[i], data->time_to_die))
 			{
-				philo[i].state = DEAD;
+				change_state(&philo[i], DEAD);
 				print_state(&philo[i], "died");
 				pthread_mutex_lock(&data->finish_mutex);
 				data->finish = true;
 				pthread_mutex_unlock(&data->finish_mutex);
-				pthread_mutex_unlock(&philo[i].state_mutex);
 				break ;
 			}
-			pthread_mutex_unlock(&philo[i].state_mutex);
 			i++;
 		}
 	}

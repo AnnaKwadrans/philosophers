@@ -105,6 +105,8 @@ int		create_philos(t_data *data, t_philosopher *philo, int odd);
 int		init_mutexes(t_philosopher *philo);
 void		destroy_mutexes(t_data *data, t_philosopher *philos);
 int		join_threads(t_data *data, t_philosopher *philo);
+bool	check_state(t_philosopher *philo, t_state state_to_check);
+void	change_state(t_philosopher *philo, t_state new_state);
 
 // watch.c
 void		*watch(void *arg);

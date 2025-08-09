@@ -31,17 +31,8 @@ int	grab_forks(t_philosopher *philo)
 	pthread_mutex_t	*first;
 	pthread_mutex_t	*second;
 
-	if (has_dinner_finished(philo->data))
+	if (check_state(philo, HUNGRY) || has_dinner_finished(philo->data))
 		return (1);
-	if (philo->state != HUNGRY)
-		return (1);
-	/*pthread_mutex_lock(&philo->state_mutex);
-	if (philo->state == DEAD)
-	{
-		pthread_mutex_unlock(&philo->state_mutex);
-		return (1);
-	}
-	pthread_mutex_unlock(&philo->state_mutex);*/
 	if (philo->index % 2 == 0)
 	{
 		first = philo->right_fork;
@@ -81,10 +72,10 @@ void	drop_forks(t_philosopher *philo)
 {
 	//drop_fork(philo->right_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	print_state(philo, "has dropped a fork");
+	//print_state(philo, "has dropped a fork");
 	//drop_fork(philo->left_fork);
 	pthread_mutex_unlock(philo->left_fork);
-	print_state(philo, "has dropped a fork");
+	//print_state(philo, "has dropped a fork");
 }
 
 void	destroy_forks(t_data *data)
