@@ -33,3 +33,42 @@ void	print_state(t_philosopher *philo, char *msg)
 {
 	printf("%lld %d %s\n", elapsed_time(philo->data->start_time), philo->index, msg);
 }
+
+void	ft_usleep(long long time)
+{
+	long long	rem;
+	long long	elapsed;
+	long long	start;
+
+	elapsed = 0;
+	rem = 0;
+	start = get_timestamp();
+	while (elapsed < time)
+	{
+		elapsed = get_timestamp() - start;
+		//printf("ELAPSED %lld\n", elapsed);
+		rem = time - elapsed;
+		//printf("REMAINING %lld\n", rem);
+		if (rem > 1000)
+			usleep(rem / 2);
+	}
+}
+/*
+int	main(void)
+{
+	long long	ts;
+	int			i;
+	long long	start;
+
+	i = 200;
+	start = get_timestamp();
+	while (i < 1000)
+	{
+		ts = get_timestamp() - start; 
+		printf("start %lld | i = %d\n", ts, i);
+		ft_usleep(i);
+		ts = get_timestamp() - start;
+		printf("end %lld\n", ts);
+		i += 300;
+	}
+}*/

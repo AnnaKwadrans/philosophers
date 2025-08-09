@@ -40,7 +40,7 @@ void	*routine(void *arg)
 
 	all_ths_created(data);
 	if (philo->index % 2 == 0)
-		usleep(philo->data->time_to_eat / 2 * 1000);
+		ft_usleep(philo->data->time_to_eat / 2);
 	//pthread_mutex_lock(&data->finish_mutex);
 	//if (data->finish)
 	//{
@@ -126,7 +126,7 @@ int	eating(t_philosopher *philo)
 	philo->nb_of_meals++;
 	if (philo->nb_of_meals == philo->data->number_of_times_each_philosopher_must_eat)
 		record_full_philo(philo);
-	usleep(philo->data->time_to_eat * 1000);
+	ft_usleep(philo->data->time_to_eat);
 	return (0);
 }
 
@@ -142,7 +142,7 @@ int	sleeping(t_philosopher *philo)
 	}
 	pthread_mutex_unlock(&philo->state_mutex);*/
 	print_state(philo, "is sleeping");
-	usleep(philo->data->time_to_sleep * 1000);
+	ft_usleep(philo->data->time_to_sleep);
 	return (0);
 }
 
