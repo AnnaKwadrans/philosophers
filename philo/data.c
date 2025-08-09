@@ -37,7 +37,7 @@ int	init_data(t_data *data, int argc, char **argv)
 	{
 		printf("data mutex init error");
 		destroy_forks(data);
-		destroy_mutexes(data, data->philos);
+		destroy_philos_mutexes(data, data->philos);
 		free_memory(data);
 		return (3);
 	}
@@ -56,7 +56,6 @@ void	init_parameters(t_data *data, int argc, char **argv)
 	else
 		data->number_of_times_each_philosopher_must_eat = -1;
 	data->start_time = LLONG_MIN;
-	//data->count = 0;
 	data->full_philos = 0;
 	data->start = false;
 	data->finish = false;
@@ -92,7 +91,7 @@ void	finish_program(t_data *data)
 {
 	join_threads(data, data->philos);
 	destroy_forks(data);
-	destroy_mutexes(data, data->philos);
+	destroy_philos_mutexes(data, data->philos);
 	destroy_data_mutexes(data);
 	free_memory(data);
 }

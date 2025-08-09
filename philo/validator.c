@@ -15,7 +15,7 @@
 bool	valid_arguments(int argc, char **argv)
 {
 	if (!valid_number_of_args(argc) || !are_args_digits(argv)
-		|| !are_args_positive(argv))
+		|| !are_args_positive(argv) || !args_within_limit(argv))
 		return (0);
 	return (1);
 }
@@ -59,12 +59,34 @@ bool	are_args_positive(char **argv)
 {
 	int	i;
 
-	i = 1;
+	if (ft_atoi(argv[1]) < 2)
+	{
+		printf("there must be at least 2 philosophers\n");
+		return (0);		
+	}
+	i = 2;
 	while (argv[i])
 	{
 		if (ft_atoi(argv[i]) <= 0)
 		{
 			printf("arguments must be positive numbers\n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+bool	args_within_limit(char **argv)
+{
+	int	i;
+
+	i = 1;
+	while (argv[i])
+	{
+		if (atoi_limit_checker(argv[i]))
+		{
+			printf("arguments can´t exceed INT_MAX");
 			return (0);
 		}
 		i++;

@@ -27,7 +27,7 @@ void	record_full_philo(t_philosopher *philo)
 	pthread_mutex_lock(&philo->data->full_mutex);
 	philo->data->full_philos++;
 	pthread_mutex_unlock(&philo->data->full_mutex);
-	philo->state = FULL;
+	change_state(philo, FULL);
 }
 /*
 void	*routine(void *arg)
@@ -76,10 +76,10 @@ void	*routine(void *arg)
 
 	philo = (t_philosopher *)arg;
 
-	//all_ths_created(philo->data);
-	if (philo->index % 2 == 0)
-		ft_usleep(philo->data->time_to_eat / 2);
-	while (check_state(philo, HUNGRY) && !has_dinner_finished(philo->data))
+	all_ths_created(philo->data);
+	//if (philo->index % 2 == 0)
+	//	ft_usleep(philo->data->time_to_eat / 2);
+	while (1)
 	{
 		if (grab_forks(philo) > 0)
 			break ;
@@ -94,6 +94,7 @@ void	*routine(void *arg)
 		if (thinking(philo) > 0)
 			break ;
 	}
+	printf("ROUTINE %d ENDED\n", philo->index);
 	return (NULL);
 }
 
@@ -103,12 +104,12 @@ int	eating(t_philosopher *philo)
 		return (1);
 	print_state(philo, "is eating");
 	pthread_mutex_lock(&philo->last_meal_mutex);
-	philo->last_meal = elapsed_time(philo->data->start_time);
+	philo->last_meal = elapsed_time(philo->start_time);
 	pthread_mutex_unlock(&philo->last_meal_mutex);
 	philo->nb_of_meals++;
-	if (philo->nb_of_meals == philo->data->number_of_times_each_philosopher_must_eat)
+	if (philo->max_meals > 0 && philo->nb_of_meals == philo->max_meals)
 		record_full_philo(philo);
-	ft_usleep(philo->data->time_to_eat);
+	ft_usleep(philo->time_to_eat);
 	return (0);
 }
 
@@ -117,7 +118,7 @@ int	sleeping(t_philosopher *philo)
 	if (!check_state(philo, HUNGRY) || has_dinner_finished(philo->data))
 		return (1);
 	print_state(philo, "is sleeping");
-	ft_usleep(philo->data->time_to_sleep);
+	ft_usleep(philo->time_to_sleep);
 	return (0);
 }
 
@@ -127,7 +128,7 @@ int	thinking(t_philosopher *philo)
 		return (1);
 	print_state(philo, "is thinking");
 	if (philo->index % 2 == 0)
-		ft_usleep(philo->data->time_to_eat / 2);
+		ft_usleep(philo->time_to_eat / 2);
 	return (0);
 }
 

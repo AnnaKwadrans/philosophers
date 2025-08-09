@@ -31,7 +31,7 @@ long long	elapsed_time(long long start_time)
 
 void	print_state(t_philosopher *philo, char *msg)
 {
-	printf("%lld %d %s\n", elapsed_time(philo->data->start_time), philo->index, msg);
+	printf("%lld %d %s\n", elapsed_time(philo->start_time), philo->index, msg);
 }
 
 void	ft_usleep(long long time)

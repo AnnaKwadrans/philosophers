@@ -41,6 +41,11 @@ typedef struct	s_philosopher
 	pthread_mutex_t		last_meal_mutex;
 	pthread_mutex_t		state_mutex;
 	struct s_data		*data;
+	int					max_meals;
+	long long			start_time;
+	int			time_to_die;
+	int			time_to_eat;
+	int			time_to_sleep;
 } t_philosopher;
 
 typedef struct	s_data
@@ -64,17 +69,20 @@ typedef struct	s_data
 
 // main.c
 int		create_threads(t_data *data);
+void	record_start_time(t_data *data, t_philosopher *philos);
 
 // validator.c
 bool		valid_arguments(int argc, char **argv);
 bool		valid_number_of_args(int argc);
 bool		are_args_digits(char **argv);
 bool		are_args_positive(char **argv);
+bool	args_within_limit(char **argv);
 
 // utils.c
 int		ft_atoi(const char *nptr);
 int		ft_isspace(int c);
 int		ft_isdigit(int c);
+bool	atoi_limit_checker(const char *nptr);
 
 // data.c
 int		init_data(t_data *data, int argc, char **argv);
@@ -103,7 +111,7 @@ void		destroy_forks(t_data *data);
 int		init_philosophers(t_data *data, t_philosopher *philo);
 int		create_philos(t_data *data, t_philosopher *philo, int odd);
 int		init_mutexes(t_philosopher *philo);
-void		destroy_mutexes(t_data *data, t_philosopher *philos);
+void		destroy_philos_mutexes(t_data *data, t_philosopher *philos);
 int		join_threads(t_data *data, t_philosopher *philo);
 bool	check_state(t_philosopher *philo, t_state state_to_check);
 void	change_state(t_philosopher *philo, t_state new_state);

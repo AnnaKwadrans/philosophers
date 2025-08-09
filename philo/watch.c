@@ -20,24 +20,26 @@ void	*watch(void *arg)
 
 	data = (t_data *)arg;
 	philo = data->philos;
-	//all_ths_created(data);
+	all_ths_created(data);
 	while (!has_dinner_finished(data) && !are_philos_full(data))
 	{
 		i = 0;
-		while (i < data->number_of_philosophers)
+		while (i < data->number_of_philosophers && !has_dinner_finished(data)
+			&& !are_philos_full(data))
 		{
 			if (check_state(&philo[i], HUNGRY) && has_died(&philo[i], data->time_to_die))
 			{
 				change_state(&philo[i], DEAD);
-				print_state(&philo[i], "died");
 				pthread_mutex_lock(&data->finish_mutex);
 				data->finish = true;
 				pthread_mutex_unlock(&data->finish_mutex);
+				print_state(&philo[i], "died");
 				break ;
 			}
 			i++;
 		}
 	}
+	printf("WATCH ENDED\n");
 	return (NULL);
 	//usleep(data->time_to_die * 1000 - 1000);
 	/*
