@@ -55,7 +55,7 @@ void	init_parameters(t_data *data, int argc, char **argv)
 		data->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
 		data->number_of_times_each_philosopher_must_eat = -1;
-	data->start_time = -100;
+	data->start_time = LLONG_MIN;
 	//data->count = 0;
 	data->full_philos = 0;
 	data->start = false;

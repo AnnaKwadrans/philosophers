@@ -89,6 +89,7 @@ void		free_memory(t_data *data);
 long long	get_timestamp(void);
 long long	elapsed_time(long long start_time);
 void		print_state(t_philosopher *philo, char *msg);
+void	ft_usleep(long long time);
 
 // forks.c
 int		init_forks(t_data *data);

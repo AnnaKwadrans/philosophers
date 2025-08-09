@@ -63,7 +63,7 @@ int	create_philos(t_data *data, t_philosopher *philo, int odd)
 	int	i;
 
 	i = odd; // remove
-	i = 0;
+	//i = 0;
 	//data->start_time = get_timestamp();
 	while (i < data->number_of_philosophers)
 	{
@@ -72,7 +72,7 @@ int	create_philos(t_data *data, t_philosopher *philo, int odd)
 			printf("create philo thread error\n");
 			return (1);
 		}
-		i++;
+		i += 2;
 	}
 	return (0);
 }

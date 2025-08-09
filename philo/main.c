@@ -63,8 +63,8 @@ int	create_threads(t_data *data)
 	}
 	if (create_philos(data, data->philos, 0) > 0)
 		return (2);
-	//if (create_philos(data, data->philos, 1) > 0)
-	//	return (2);
+	if (create_philos(data, data->philos, 1) > 0)
+		return (2);
 	pthread_mutex_lock(&data->start_mutex);
 	data->start = true;
 	pthread_mutex_unlock(&data->start_mutex);

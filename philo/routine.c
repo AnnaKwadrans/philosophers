@@ -38,9 +38,9 @@ void	*routine(void *arg)
 	philo = (t_philosopher *)arg;
 	data = philo->data;
 
-	all_ths_created(data);
-	if (philo->index % 2 == 0)
-		ft_usleep(philo->data->time_to_eat / 2);
+	//all_ths_created(data);
+	//if (philo->index % 2 == 0)
+	//	ft_usleep(philo->data->time_to_eat / 2);
 	//pthread_mutex_lock(&data->finish_mutex);
 	//if (data->finish)
 	//{
@@ -50,6 +50,8 @@ void	*routine(void *arg)
 	while (!has_dinner_finished(data))
 	{
 		//pthread_mutex_unlock(&data->finish_mutex);
+		if (philo->index % 2 == 0)
+			ft_usleep(philo->data->time_to_eat / 2);
 		if (grab_forks(philo) > 0)
 			break ;
 		if (eating(philo) > 0)

@@ -20,7 +20,7 @@ void	*watch(void *arg)
 
 	data = (t_data *)arg;
 	philo = data->philos;
-	all_ths_created(data);
+	//all_ths_created(data);
 	while (!has_dinner_finished(data) && !are_philos_full(data))
 	{
 		i = 0;
