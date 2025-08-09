@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	*watch_for_dead(void *arg)
+void	*watch(void *arg)
 {
 	t_data		*data;
 	t_philosopher 	*philo;
@@ -20,7 +20,30 @@ void	*watch_for_dead(void *arg)
 
 	data = (t_data *)arg;
 	philo = data->philos;
-	usleep(data->time_to_die * 1000 - 1000);
+	all_ths_created(data);
+	while (!has_dinner_finished(data) && !are_philos_full(data))
+	{
+		i = 0;
+		while (i < data->number_of_philosophers)
+		{
+			pthread_mutex_lock(&philo[i].state_mutex);
+			if (philo[i].state == HUNGRY && has_died(&philo[i], data->time_to_die))
+			{
+				philo[i].state = DEAD;
+				print_state(&philo[i], "died");
+				pthread_mutex_lock(&data->finish_mutex);
+				data->finish = true;
+				pthread_mutex_unlock(&data->finish_mutex);
+				pthread_mutex_unlock(&philo[i].state_mutex);
+				break ;
+			}
+			pthread_mutex_unlock(&philo[i].state_mutex);
+			i++;
+		}
+	}
+	return (NULL);
+	//usleep(data->time_to_die * 1000 - 1000);
+	/*
 	while (data->count < data->number_of_philosophers)
 	{
 		//printf("count: %d\n", data->count);
@@ -41,6 +64,24 @@ void	*watch_for_dead(void *arg)
 		}
 	}
 	return (NULL);
+	*/
+}
+
+bool	are_philos_full(t_data *data)
+{
+	bool	full;
+
+	full = false;
+	pthread_mutex_lock(&data->full_mutex);
+	if (data->full_philos >= data->number_of_philosophers)
+	{
+		full = true;
+		printf("PHILOS FULL\n");
+	}
+	/*else
+		printf("PHILOS >>>NOT<<< FULL\n");*/
+	pthread_mutex_unlock(&data->full_mutex);
+	return (full);
 }
 
 bool	has_died(t_philosopher *philo, long long time_to_die)

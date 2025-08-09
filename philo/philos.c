@@ -19,7 +19,7 @@ int	init_philosophers(t_data *data, t_philosopher *philo)
 	i = 0;
 	while (i < data->number_of_philosophers)
 	{
-		philo[i].index = i;
+		philo[i].index = i + 1;
 		philo[i].right_fork = &data->forks[i];
 		if (i == data->number_of_philosophers - 1)
 			philo[i].left_fork = &data->forks[0];
@@ -62,7 +62,8 @@ int	create_philos(t_data *data, t_philosopher *philo, int odd)
 {
 	int	i;
 
-	i = odd;
+	i = odd; // remove
+	i = 0;
 	//data->start_time = get_timestamp();
 	while (i < data->number_of_philosophers)
 	{
@@ -71,7 +72,7 @@ int	create_philos(t_data *data, t_philosopher *philo, int odd)
 			printf("create philo thread error\n");
 			return (1);
 		}
-		i += 2;
+		i++;
 	}
 	return (0);
 }

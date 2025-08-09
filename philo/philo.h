@@ -54,7 +54,12 @@ typedef struct	s_data
 	t_philosopher		*philos;
 	pthread_mutex_t		*forks;
 	pthread_t		watch;
-	int			count;
+	int			full_philos;
+	pthread_mutex_t		full_mutex;
+	bool				start;
+	bool				finish;
+	pthread_mutex_t		start_mutex;
+	pthread_mutex_t		finish_mutex;
 } t_data;
 
 // main.c
@@ -75,7 +80,9 @@ int		ft_isdigit(int c);
 int		init_data(t_data *data, int argc, char **argv);
 void		init_parameters(t_data *data, int argc, char **argv);
 int		allocate_memory(t_data *data);
+int	init_data_mutexes(t_data *data);
 void		finish_program(t_data *data);
+void	destroy_data_mutexes(t_data *data);
 void		free_memory(t_data *data);
 
 // time.c
@@ -99,14 +106,19 @@ void		destroy_mutexes(t_data *data, t_philosopher *philos);
 int		join_threads(t_data *data, t_philosopher *philo);
 
 // watch.c
-void		*watch_for_dead(void *arg);
+void		*watch(void *arg);
+bool	are_philos_full(t_data *data);
 bool		has_died(t_philosopher *philo, long long time_to_die);
 
 // routine.c
+bool	has_dinner_finished(t_data *data);
+void	record_full_philo(t_philosopher *philo);
 void		*routine(void *arg);
 int		eating(t_philosopher *philo);
 int		sleeping(t_philosopher *philo);
 int		thinking(t_philosopher *philo);
+void	dinner(t_data *data);
+void	all_ths_created(t_data *data);
 
 // aux.c
 void		print_data(t_data *data);

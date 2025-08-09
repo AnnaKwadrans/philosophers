@@ -28,12 +28,20 @@ int	init_data(t_data *data, int argc, char **argv)
 	}
 	if (init_philosophers(data, data->philos) > 0)
 	{
-		printf("mutex init error");
+		printf("philo mutex init error");
 		destroy_forks(data);
 		free_memory(data);
 		return (3);
 	}
-	data->start_time = get_timestamp();
+	if (init_data_mutexes(data) > 0)
+	{
+		printf("data mutex init error");
+		destroy_forks(data);
+		destroy_mutexes(data, data->philos);
+		free_memory(data);
+		return (3);
+	}
+	//data->start_time = get_timestamp();
 	return (0);
 }
 
@@ -47,8 +55,11 @@ void	init_parameters(t_data *data, int argc, char **argv)
 		data->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
 		data->number_of_times_each_philosopher_must_eat = -1;
-	//data->start_time = get_timestamp();
-	data->count = 0;
+	data->start_time = -100;
+	//data->count = 0;
+	data->full_philos = 0;
+	data->start = false;
+	data->finish = false;
 }
 
 int	allocate_memory(t_data *data)
@@ -66,11 +77,23 @@ int	allocate_memory(t_data *data)
 	return (0);
 }
 
+int	init_data_mutexes(t_data *data)
+{
+	if (pthread_mutex_init(&data->start_mutex, NULL) > 0)
+		return (1);
+	if (pthread_mutex_init(&data->finish_mutex, NULL) > 0)
+		return (1);
+	if (pthread_mutex_init(&data->full_mutex, NULL) > 0)
+		return (1);
+	return (0);
+}
+
 void	finish_program(t_data *data)
 {
 	join_threads(data, data->philos);
 	destroy_forks(data);
 	destroy_mutexes(data, data->philos);
+	destroy_data_mutexes(data);
 	free_memory(data);
 }
 
@@ -80,4 +103,11 @@ void	free_memory(t_data *data)
 	data->philos = NULL;
 	free(data->forks);
 	data->forks = NULL;
+}
+
+void	destroy_data_mutexes(t_data *data)
+{
+	pthread_mutex_destroy(&data->start_mutex);
+	pthread_mutex_destroy(&data->finish_mutex);
+	pthread_mutex_destroy(&data->full_mutex);
 }
