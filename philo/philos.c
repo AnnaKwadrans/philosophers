@@ -76,8 +76,9 @@ int	create_philos(t_data *data, t_philosopher *philo, int odd)
 			printf("create philo thread error\n");
 			return (1);
 		}
-		i++;
-		//i += 2;
+		//printf("philo %d thread created\n", philo[i].index);
+		//i++;
+		i += 2;
 	}
 	return (0);
 }

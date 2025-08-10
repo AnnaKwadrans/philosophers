@@ -49,8 +49,8 @@ void	ft_usleep(long long time)
 		//printf("ELAPSED %lld\n", elapsed);
 		rem = time - elapsed;
 		//printf("REMAINING %lld\n", rem);
-		if (rem > 1000)
-			usleep(rem / 2);
+		if (rem > 10)
+			usleep(rem * 1000 / 2);
 	}
 }
 /*

@@ -20,7 +20,7 @@ void	*watch(void *arg)
 
 	data = (t_data *)arg;
 	philo = data->philos;
-	all_ths_created(data);
+	//all_ths_created(data);
 	while (!has_dinner_finished(data) && !are_philos_full(data))
 	{
 		i = 0;
@@ -93,8 +93,6 @@ bool	has_died(t_philosopher *philo, long long time_to_die)
 	pthread_mutex_lock(&philo->last_meal_mutex);
 	diff = ts - philo->last_meal;
 	pthread_mutex_unlock(&philo->last_meal_mutex);
-	//printf("DEATH ts: %lld, lm: %lld, diff: %lld\n", ts, philo->last_meal, diff);
-	//if ((get_timestamp() - philo->last_meal) > time_to_die)
 	if (diff > time_to_die)
 		return (1);
 	return (0);

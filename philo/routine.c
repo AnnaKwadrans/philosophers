@@ -76,9 +76,14 @@ void	*routine(void *arg)
 
 	philo = (t_philosopher *)arg;
 
-	all_ths_created(philo->data);
+	//all_ths_created(philo->data);
+	if (philo->index % 2 == 0)
+	{
+		//printf("even %d waiting\n", philo->index);
+		ft_usleep(philo->time_to_eat / 2);
+	}
 	//if (philo->index % 2 == 0)
-	//	ft_usleep(philo->data->time_to_eat / 2);
+	//	printf("even %d starts\n", philo->index);
 	while (1)
 	{
 		if (grab_forks(philo) > 0)
@@ -118,6 +123,7 @@ int	sleeping(t_philosopher *philo)
 	if (!check_state(philo, HUNGRY) || has_dinner_finished(philo->data))
 		return (1);
 	print_state(philo, "is sleeping");
+	//printf("PHILO %d tts: %d\n", philo->index, philo->time_to_sleep);
 	ft_usleep(philo->time_to_sleep);
 	return (0);
 }
@@ -127,8 +133,9 @@ int	thinking(t_philosopher *philo)
 	if (!check_state(philo, HUNGRY) || has_dinner_finished(philo->data))
 		return (1);
 	print_state(philo, "is thinking");
-	if (philo->index % 2 == 0)
-		ft_usleep(philo->time_to_eat / 2);
+	ft_usleep((philo->time_to_die - philo->time_to_eat - philo->time_to_sleep) / 2);
+	//if (philo->index % 2 == 0)
+	//	ft_usleep(philo->time_to_eat / 2);
 	return (0);
 }
 
@@ -144,6 +151,6 @@ void	all_ths_created(t_data *data)
 			return ;
 		}
 		pthread_mutex_unlock(&data->start_mutex);
-		//usleep(2);
+		usleep(10);
 	}
 }

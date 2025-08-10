@@ -50,19 +50,20 @@ int	main(int argc, char **argv)
 
 int	create_threads(t_data *data)
 {
+	record_start_time(data, data->philos);
 	if (create_philos(data, data->philos, 0) > 0)
 		return (1);
-	//if (create_philos(data, data->philos, 2) > 0)
-	//	return (2);
+	if (create_philos(data, data->philos, 1) > 0)
+		return (2);
     if (pthread_create(&data->watch, NULL, &watch, data) > 0)
 	{
 		printf("create watch thread error\n");
 		return (2);
 	}
-	record_start_time(data, data->philos);
-	pthread_mutex_lock(&data->start_mutex);
-	data->start = true;
-	pthread_mutex_unlock(&data->start_mutex);
+	//record_start_time(data, data->philos);
+	//pthread_mutex_lock(&data->start_mutex);
+	//data->start = true;
+	//pthread_mutex_unlock(&data->start_mutex);
 	return (0);
 }
 
